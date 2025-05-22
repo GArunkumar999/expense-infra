@@ -7,10 +7,10 @@ terraform {
   }
 
     backend "s3" {
-    bucket         = "expense-eks-remote-state"
+    bucket         = "expense-infra-remote-states"
     key            = "eks-vpc-state-file"
     region         = "us-east-1"
-    dynamodb_table = "expense-eks-dev-table"
+    dynamodb_table = "expense-infra-dev-table"
   }
 }
 
