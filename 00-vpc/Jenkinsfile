@@ -1,5 +1,5 @@
 pipeline{
-    agent { label 'AGENT-1' }
+    agent any
     environment{
         project="expense"
         component="backend"
@@ -27,7 +27,7 @@ pipeline{
                     withAWS(region: 'us-east-1', credentials: 'aws-cred')
                     sh """
                        cd 00-vpc
-                       terraform init --reconfigure
+                       terraform init -reconfigure
                     """
                 }
             }
