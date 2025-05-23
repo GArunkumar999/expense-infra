@@ -11,7 +11,7 @@ pipeline{
         disableConcurrentBuilds()
         ansiColor('xterm')
         }
-     parameters {
+    parameters {
 
         choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Pick something')
 
@@ -23,7 +23,7 @@ pipeline{
                 script{
                     withAWS(region: 'us-east-1', credentials: 'aws-cred'){
                     sh """
-                       cd 00-vpc
+                       cd 10-sg
                        terraform init -reconfigure
                        terraform plan
                     """
@@ -32,30 +32,22 @@ pipeline{
                 }
             }
         }
-        stage('apply'){
-            //     input {
-            //     message "Should we continue?"
-            //     ok "Yes, we should."                
-            // }
+        // stage('apply'){
+        //         input {
+        //         message "Should we continue?"
+        //         ok "Yes, we should."                
+        //     }
             steps{
                 script{
                     withAWS(region: 'us-east-1', credentials: 'aws-cred'){
                     sh """
-                       cd 00-vpc
+                       cd 10-sg
                        terraform apply -auto-approve
                     """
                     }
                   
 
                 }
-            }
-        }
-        stage('Trigger SG'){
-            when { 
-                expression { params.ACTION == 'apply'}
-            }
-            steps{
-                build job: '10-sg', parameters: [string(name: 'ACTION', value: 'apply')], wait: false
             }
         }
 
