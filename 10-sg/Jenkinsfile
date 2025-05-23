@@ -46,6 +46,8 @@ pipeline{
                 }
             }
          }
+    }
+
     post{
         always{
             echo "say hello always"
