@@ -1,0 +1,60 @@
+pipeline{
+    agent any
+    environment{
+        project="expense"
+        component="backend"
+    }
+    options { 
+        timeout(time: 30, unit: 'MINUTES')
+        disableConcurrentBuilds()
+        }
+    stages{
+        stage('init'){
+
+            steps{
+                script{
+                    withAWS(region: 'us-east-1', credentials: 'aws-cred'){
+                    sh """
+                       cd 00-vpc
+                       terraform init -reconfigure
+                       terraform plan
+                    """
+                    }
+                  
+                }
+            }
+        }
+        stage('apply'){
+            steps{
+                script{
+                    withAWS(region: 'us-east-1', credentials: 'aws-cred'){
+                    sh """
+                       cd 00-vpc
+                       terraform apply -auto-approve
+                    """
+                    }
+
+                }
+            }
+        }
+
+
+
+
+    }
+    post{
+        always{
+            echo "say hello always"
+            deleteDir()
+        }
+        success{
+            echo "say hello in success"
+        }
+        failure{
+            echo "say hello in failure"
+        }
+        unsuccessful{
+            echo "say hello in unsuccessful"
+        }
+    }
+}
