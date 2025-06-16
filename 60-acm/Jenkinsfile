@@ -1,0 +1,61 @@
+pipeline{
+        agent any
+    environment{
+        project="expense"
+        component="backend"
+    }
+    options { 
+        timeout(time: 30, unit: 'MINUTES')
+        disableConcurrentBuilds()
+        ansiColor('xterm')
+        }
+    parameters {
+
+        choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Pick something')
+
+    }
+    stages{
+        stage('init'){
+
+            steps{
+                script{
+                    withAWS(region: 'us-east-1', credentials: 'aws-cred'){
+                    sh """
+                       cd 60-acm
+                       terraform init -reconfigure
+                       terraform plan
+                    """
+                    }
+                  
+                }
+            }
+        }
+        stage('apply'){
+            steps{
+                script{
+                    withAWS(region: 'us-east-1', credentials: 'aws-cred'){
+                    sh """
+                       cd 60-acm
+                       terraform destroy -auto-approve
+                    """
+                    }
+                  
+
+                }
+            }
+         }
+    }
+
+    post{
+        always{
+            echo "say hello always"
+            deleteDir()
+        }
+        success{
+            echo "say hello in success"
+        }
+        failure{
+            echo "say hello in failure"
+        }
+    }
+}
