@@ -1,5 +1,5 @@
 resource "aws_route53_record" "web-alb" {
-  zone_id = "Z0720927H41Q39EST49L"
+  zone_id = "Z0592130EBEMYAQIQAFO"
   name    = "${var.project}-${var.environment}.devopslearning.fun"
   type    = "A"
 
