@@ -58,7 +58,7 @@ pipeline{
             }
             steps {
                script{
-                withAWS(region: 'us-east-1', credentials: 'aws-creds') {
+                withAWS(region: 'us-east-1', credentials: 'aws-cred') {
                     def list = ["60-acm", "50-ecr", "40-eks", "30-rds", "20-bastion", "10-sg", "00-vpc"]
                     for(item in list){
                         sh """
