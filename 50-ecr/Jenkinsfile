@@ -1,5 +1,7 @@
 pipeline{
-        agent any
+    agent {
+        label 'agent-1'
+    }
     environment{
         project="expense"
         component="backend"
@@ -19,7 +21,7 @@ pipeline{
 
             steps{
                 script{
-                    withAWS(region: 'us-east-1', credentials: 'aws-cred'){
+                    withAWS(region: 'us-east-1', credentials: 'aws-creds'){
                     sh """
                        cd 50-ecr
                        terraform init -reconfigure
@@ -33,7 +35,7 @@ pipeline{
         stage('apply'){
             steps{
                 script{
-                    withAWS(region: 'us-east-1', credentials: 'aws-cred'){
+                    withAWS(region: 'us-east-1', credentials: 'aws-creds'){
                     sh """
                        cd 50-ecr
                        terraform apply -auto-approve
