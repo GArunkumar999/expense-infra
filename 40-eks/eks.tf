@@ -58,7 +58,7 @@ module "eks" {
   }
 
   tags = {
-        Name = "${var.project}-${var.environment}-bastion"
+        Name = "${var.project}-${var.environment}-eks"
 
     }
   
