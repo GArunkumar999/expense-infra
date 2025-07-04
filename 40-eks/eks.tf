@@ -8,7 +8,7 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.0"
 
-  cluster_name    = "${var.project}-${var.environment}"
+  cluster_name    = "${var.project}-${var.environment}-s"
   cluster_version = "1.31" # later we upgrade 1.32
   create_node_security_group = false
   create_cluster_security_group = false
