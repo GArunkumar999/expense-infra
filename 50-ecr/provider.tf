@@ -8,7 +8,7 @@ terraform {
 
   backend "s3" {
     bucket         = "expense-infra-remote-states"
-    key            = "eks-state-file"
+    key            = "ecr-state-file"
     region         = "us-east-1"
     dynamodb_table = "expense-infra-dev-table"
   }
